@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NGWalks.Data;
 
@@ -11,9 +12,11 @@ using NGWalks.Data;
 namespace NGWalks.Migrations
 {
     [DbContext(typeof(NGWalksDbContext))]
-    partial class NGWalksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410142032_SeedingDataforDiffandRegion")]
+    partial class SeedingDataforDiffandRegion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
