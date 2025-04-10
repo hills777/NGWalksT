@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NGWalks.Data;
+using NGWalks.Mappings;
+using NGWalks.Repo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NGWalksDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NGWalksConnectionString")));
+builder.Services.AddScoped<IRegionRepo, RegionRepo>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 
