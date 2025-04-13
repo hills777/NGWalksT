@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NGWalks.CustomActionFilters;
 using NGWalks.Data;
 using NGWalks.Models.Domain;
 using NGWalks.Models.DTO;
@@ -40,7 +41,7 @@ namespace NGWalks.Controllers
                 });
             }*/
             //Map Domain model to Dto
-           var regionsDto =  mapper.Map<List<RegionDto>>(regionsDomain);
+            var regionsDto = mapper.Map<List<RegionDto>>(regionsDomain);
 
             return Ok(regionsDto);
         }
@@ -68,26 +69,33 @@ namespace NGWalks.Controllers
             return Ok(regionDto);
         }
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequest)
         {
+
             //Convert Dto to Domain Model
             var regionDomainM = mapper.Map<Region>(addRegionRequest);
 
             //Use Dmomain model to create a region
-          regionDomainM =  await regionRepo.CreateAsync(regionDomainM);
+            regionDomainM = await regionRepo.CreateAsync(regionDomainM);
 
             //Map to Model back to DTo
             var regionDto = mapper.Map<RegionDto>(regionDomainM);
-            return CreatedAtAction(nameof(GetByIdAsync),new {Id = regionDto.Id}, regionDto);
+            return CreatedAtAction(nameof(GetByIdAsync), new { Id = regionDto.Id }, regionDto);
+
+
 
         }
         [HttpPut]
         [Route("{Id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid Id, [FromBody] UpdateRegionRquestDto updateRegion)
         {
-            //Map Dto to model
+
+
+
             var regionDomainModel = mapper.Map<Region>(updateRegion);
-           regionDomainModel =  await regionRepo.UpdateAsync(Id, regionDomainModel);
+            regionDomainModel = await regionRepo.UpdateAsync(Id, regionDomainModel);
             if (regionDomainModel != null) { return NotFound(); }
 
             //Convert Model to Dto
@@ -95,19 +103,20 @@ namespace NGWalks.Controllers
 
             return Ok(regionDto);
 
+
         }
 
         [HttpDelete]
         [Route("{Id:Guid}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid Id) 
-        { 
+        public async Task<IActionResult> Delete([FromRoute] Guid Id)
+        {
             var regionDomainModel = await regionRepo.DeleteAsync(Id);
             if (regionDomainModel == null) { return NotFound(); }
 
             var regionDto = mapper.Map<RegionDto>(regionDomainModel);
 
-            return Ok(regionDto);  
-        
+            return Ok(regionDto);
+
         }
     }
 }

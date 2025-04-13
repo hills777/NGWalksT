@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NGWalks.CustomActionFilters;
 using NGWalks.Data;
 using NGWalks.Models.Domain;
 using NGWalks.Models.DTO;
@@ -24,8 +25,11 @@ namespace NGWalks.Controllers
             this.dbContext = dbContext;
         }
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddWalksRequestDto addWalksRequest)
         {
+            
+
             try
             {
                 var difficultyExists = await dbContext.Difficulties
@@ -81,6 +85,7 @@ namespace NGWalks.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [ValidateModel]
         public async Task<IActionResult> UpdateWalk([FromRoute] Guid id, UpdateWalksRequestDto updateWalksRequest)
         {
             var walkDomainModel = mapper.Map<Walk>(updateWalksRequest);
