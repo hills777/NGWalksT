@@ -1,6 +1,8 @@
-﻿namespace NGWalks.Models.Domain
+﻿using NGWalks.Models.Domain;
+
+namespace NGWalks.Models.DTO
 {
-    public class Walk
+    public class AddWalksRequestDto
     {
         public Guid id { get; set; }
         public string Name { get; set; }
@@ -10,8 +12,5 @@
         public Guid DifficultyId { get; set; }
         public Guid RegionId { get; set; }
 
-        //Navigation properties 
-        public Difficulty Difficulty { get; set; }
-        public Region Region { get; set; }
     }
 }

@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NGWalksDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NGWalksConnectionString")));
 builder.Services.AddScoped<IRegionRepo, RegionRepo>();
+builder.Services.AddScoped<IWalkRepo, WalkRepo>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
